@@ -106,8 +106,7 @@
 {
 "inputs":
 [
-  {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose" : "Response variable"},
-  {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose" : "Predictor variables"},
+
 
   {"name":"intercept", "kind":"namevalue", "type":"logical", "purpose":"Indicator for constant term"},
   {"name":"family", "kind":"namevalue", "type":["string"], "purpose":"Indicator for constant term"},
@@ -123,7 +122,53 @@
     "description":"finds MLE of lambda in linear regression (and confidence interval) using Box Cox, YJ or extended YJ  transformation"
 },
 
+    "fanBICpn": 
+{
+"inputs":
+[
 
+  {"name":"laRangeAndStep", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"values of laP and laN to explore"},
+  {"name":"fraciniFSR", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"fraction of observations to initialize search for outlier detection"},
+  {"name":"bonflev", "kind":"namevalue", "type":["numeric","scalar"],"purpose":"Signal to use to identify outliers"},
+  {"name":"init", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Step to start monitoring exceedances"},
+  {"name":"scoremale", "kind":"namevalue", "type":["logical", "scalar"], "purpose":"likelihood ratio test for the two different transformation parameters lambda_P$ and $lambda_N$"},
+  {"name":"nsamp", "kind":"namevalue", "type":["scalar", ">=0"],"purpose":"Number of subsamples which will be extracted to find the robust estimator"},
+  {"name":"msg", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Level of output to display"},
+  {"name":"plots", "kind":"namevalue", "type":"logical", "purpose":"Plot on the screen"}
+  
+
+],
+    "description":"finds MLE of lambda in linear regression (and confidence interval) using Box Cox, YJ or extended YJ  transformation"
+},
+
+"forecastH":
+ {
+   "inputs":
+   [
+      {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+      {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+      {"name":"Z", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+      {"name":"bsb", "kind":"namevalue", "type":["numeric","vector"],"purpose":"list of units forming the initial subset"},
+      {"name":"conflev", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"confidence level of the bands"},
+      {"name":"intercept", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Indicator for constant term"},
+      {"name":"outH", "kind":"namevalue", "type":"struct", "purpose":"output from fitted heteroskedatic model"},
+      {"name":"originalScale", "kind":"namevalue", "type":["logical","logical"], "purpose":"confidence band in original or transformed scale"},
+      {"name":"selcolX", "kind":"namevalue", "type":["numeric","2d"], "purpose":"column of matrix X for which confidence band is wanted"},
+      {"name":"typeH", "kind":"namevalue", "type":["numeric","string"], "purpose":"Parametric function to be used in the skedastic equation"}
+      
+      
+   ],
+    "description":"forecastH produce forecasts with confidence bands for regression model with heteroskedasticity"
+
+ },
+        
+ "forecastTS":
+    { 
+      
+"description":"Forecast for a time series with trend, time varying seasonal, level shift and irregular component"
+
+      
+        },
 
    "FSR": {
      "inputs":
@@ -156,6 +201,593 @@
         
      ],
       "description":"Computes forward search estimator in linear regression"
+   },
+     "FSRaddt":
+ {
+   "inputs":
+   [
+      {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+      {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+      {"name":"DataVars", "kind": "namevalue", "type":["double", "vector"],"purpose":"Variables for which $g(X_j)$ against $X_j$ has to be shown"},
+      {"name":"intercept", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Indicator for constant term"},
+      {"name":"h", "kind":"namevalue", "type":["logical","scalar"], "purpose":"The number of observations that have determined the least trimmed squares estimator"},
+      {"name":"ilr", "kind":"namevalue", "type":["logical","logical"], "purpose":"Apply the ilr transformation"},
+      {"name":"msg", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Level of output to display"},
+      {"name":"init", "kind":"namevalue", "type":["numeric","logical"], "purpose":"Indicator for constant term"},
+      {"name":"lms", "kind":"namevalue", "type":[["numeric","scalar"],["numeric","vector"],["struct"]], "purpose":"Criterion to use to find the initial subset to initialize the search"},
+      {"name":"nsamp", "kind":"namevalue", "type":["scalar", ">=0"],"purpose":"Number of subsamples which will be extracted to find the robust estimator"},
+      {"name":"plots", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Plot on the screen"},
+      {"name":"nameX", "kind":"namevalue", "type":["cell", "string"],"purpose":"Add variable labels in plot"},
+      {"name":"lwdenv", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Line width of the envelope lines"},
+      {"name":"quant", "kind":"namevalue", "type":["double", "vector"], "purpose":"Quantiles"},
+      {"name":"lwdt", "kind":"namevalue", "type":["double", "vector"], "purpose":"Line width for deletion T stat"},
+      {"name":"nocheck", "kind":"namevalue", "type":["logical","logical"], "purpose":"Check input arguments"},
+      {"name":"titl", "kind":"namevalue", "type":["char","char"], "purpose":"a label for the title"},
+      {"name":"labx","kind":"namevalue", "type":["char","char"], "purpose":"a label for the x-axis"},
+      {"name":"laby", "kind":"namevalue","type":["char","char"], "purpose":"a label for the y-axis"},
+      {"name":"FontSize", "kind":"namevalue","type":["double","scalar"], "purpose":"the font size of the labels of the axes and of the labels inside the plot"},
+      {"name":"SizeAxesNum","kind":"namevalue", "type":["double","scalar"], "purpose":" size of the numbers of the axes"},
+      {"name":"xlim", "kind":"namevalue", "type":["numeric","vector","numel=2"], "purpose":"Control x scale in plot"},
+      {"name":"ylim", "kind":"namevalue", "type":["numeric","vector","numel=2"], "purpose":"Control y scale in plot"}
+       
 
-   }
+      
+      
+   ],
+    "description":"FSRaddt produces t deletion tests for each explanatory variable"
+ },
+
+"FSRB":
+ {
+   "inputs":
+   [
+      {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+      {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+      {"name":"intercept", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Indicator for constant term"},
+      {"name":"bayes", "kind":"namevalue", "type":["struct"], "purpose":"Prior information"},
+      {"name":"plots", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Plot on the screen"},
+      {"name":"tag", "kind":"namevalue", "type":"char", "purpose":"Personalized plot tag"},
+      {"name":"init", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Step to start monitoring exceedances"},
+      {"name":"bivarfit", "kind":"namevalue", "type":["char", "choices={'0', '1', '2', ''}"], "purpose":"Add a line fit"},
+      {"name":"multivarfit", "kind":"namevalue", "type":["char", "choices={'1', '2', ''}"], "purpose":"Add a multivariate fit"},
+      {"name":"labeladd", "kind":"namevalue","type":["numeric", "scalar"], "purpose":"label the outliers"},
+      {"name":"nameX", "kind":"namevalue", "type":"cell", "purpose":"Labels of the X variables"},
+      {"name":"namey", "kind":"namevalue", "type":"string", "purpose":"Labels of the y variable"},
+      {"name":"xlim", "kind":"namevalue", "type":["numeric","vector","numel=2"], "purpose":"Control x scale in plot"},
+      {"name":"ylim", "kind":"namevalue", "type":["numeric","vector","numel=2"], "purpose":"Control y scale in plot"},
+      {"name":"bonflev", "kind":"namevalue", "type":["numeric","scalar"],"purpose":"Signal to use to identify outliers"},
+      {"name":"msg", "kind":"namevalue", "type":[["single", "scalar"], ["double", "scalar"]], "purpose":"display or save used options"},
+      {"name":"tag", "kind":"namevalue", "type":"char", "purpose":"Personalized plot tag"}
+      
+   ],
+    "description":"FSRB gives an automatic outlier detection procedure in Bayesian linear regression"
+ },
+    "FSRBbsb":
+ {
+   "inputs":
+   [
+      {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+      {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+      {"name":"beta0", "kind":"required", "type":["numeric","vector"], "purpose":"C"},
+      {"name":"R", "kind":"required", "type":["numeric","2d"], "purpose":"Matrix associated with covariance matrix of $\beta$"},
+      {"name":"tau0", "kind":"required", "type":["numeric","scalar"], "purpose":"Prior estimate of tau"},
+      {"name":"n0", "kind":"required", "type":["numeric","scalar"], "purpose":" Number of previous experiments"},
+      {"name":"bsb", "kind":"namevalue", "type":["numeric","vector"],"purpose":"list of units forming the initial subset"},
+      {"name":"init", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Step to start monitoring exceedances"},
+      {"name":"intercept", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+      {"name":"plots", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Plot on the screen"},
+      {"name":"bsbsteps", "kind":"namevalue", "type":["double", "vector"], "purpose":"steps of the fwd search where to save the units forming subset"},
+      {"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+      {"name":"msg", "kind":"namevalue", "type":[["single", "scalar"], ["double", "scalar"]], "purpose":"display or save used options"}
+
+
+
+
+   ],
+    "description":"FSRBbsb returns the units belonging to the subset in each step of the Bayesian forward search"
+ },
+
+     "FSRcp":
+ {
+   "inputs":
+   [
+      {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+      {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+      {"name":"smallp", "kind":"required", "type":["scalar","scalar"], "purpose":" number of variables in the reduced models"},
+      {"name":"intercept", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+      {"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+      {"name":"h", "kind":"namevalue", "type":["double", "positive", "integer"], "purpose":" number of observations"},
+      {"name":"lms", "kind":"namevalue", "type":[["numeric","scalar"],["numeric","vector"],["struct"]], "purpose":"Criterion to use to find the initial subset to initialize the search"},
+      {"name":"nomes", "kind":"namevalue", "type":["double","scalar"], "purpose":"Displaying time message"},
+      {"name":"nsamp", "kind":"namevalue", "type":["double","scalar"], "purpose":"Number of subsamples which will be extracted to find the robust estimator"},
+      {"name":"init", "kind":"namevalue", "type":["double","scalar"], "purpose":"Step to start monitoring exceedances"},
+      {"name":"aic", "kind":"namevalue", "type":["double","scalar"], "purpose":"Search initialization"},
+      {"name":"labels", "kind":"namevalue", "type":[["char"], ["string"], ["cell"]], "purpose":" names of the explanatory variables"},
+      {"name":"fin_step", "kind":"namevalue", "type":["double","scalar"], "purpose":"portion of the search which has to be monitored to choose the best models"},
+      {"name":"first_k", "kind":"namevalue", "type":["double","scalar"], "purpose":"number of best models"},
+      {"name":"Excl", "kind":"namevalue", "type":["numeric","2d"], "purpose":"Matrix which contains the models which surely do not have to be considered"},
+      {"name":"ExclThresh", "kind":"namevalue", "type":["double","scalar"], "purpose":"number of best models"},
+      {"name":"plots", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Plot on the screen"},
+      {"name":"labout ", "kind":"namevalue", "type":["double","scalar"], "purpose":"Exclusion threshold"},
+      {"name":"quant", "kind":"namevalue", "type":["double", "vector"], "purpose":"Quantiles"},
+      {"name":"steps", "kind":"namevalue", "type":["double", "vector"], "purpose":"Steps to add labels"},
+      {"name":"titl","kind":"namevalue", "type":"char", "purpose":"a label for the title"},
+      {"name":"labx","kind":"namevalue", "type":["char","char"], "purpose":"a label for the x-axis"},
+      {"name":"laby", "kind":"namevalue","type":["char","char"], "purpose":"a label for the y-axis"},
+      {"name":"xlimx", "kind":"namevalue", "type":["double", "vector"], "purpose":"x axis scale"},
+      {"name":"ylimy", "kind":"namevalue", "type":[["double"], ["single"]], "purpose":"minimum and maximum on the y axis"},
+      {"name":"lwd", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Line Width"},
+      {"name":"lwdenv", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Width of the envelope lines"},
+      {"name":"FontSize","kind":"namevalue", "type":"double", "purpose":"scalar which specifies font size of row (column) labels"},
+      {"name":"SizeAxesNum","kind":"namevalue", "type":"double", "purpose":"scalar specifying the fontsize of the axes numbers"},
+      {"name":"selunitcolor","kind":"namevalue", "type":[["char"], ["string"], ["cell"]], "purpose":"colors to be used for the Cp trajectories"},
+      {"name":"selunittype ","kind":"namevalue", "type":[["char"], ["string"], ["cell"]], "purpose":" line types of the Cp trajectories"}
+
+
+   ],
+    "description":"FSRcp monitors Cp and AIC for all models of interest of size smallp"
+ },
+
+ "FSRBr":
+ {
+   "inputs":
+   [
+      {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+      {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+      {"name":"alpha",  "kind":"namevalue","type":["double", "scalar"], "purpose":"test size"},
+      {"name":"intercept", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+      {"name":"R2th", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+      {"name":"fullereweight", "kind":"namevalue", "type":["scalar","logical"], "purpose":"Option to declare outliers"},
+      {"name":"plotsPI", "kind":"namevalue", "type":["scalar","double"], "purpose":"Plot of prediction intervals"},
+      {"name":"bayes", "kind":"namevalue", "type":["struct"], "purpose":"Prior information"},
+      {"name":"plots", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Plot on the screen"},
+      {"name":"tag", "kind":"namevalue", "type":[["char"],["cellstr"]], "purpose":"tags to the plots which are created"},
+      {"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+      {"name":"init", "kind":"namevalue", "type":["double","scalar"], "purpose":"Step to start monitoring exceedances"},
+      {"name":"bivarfit", "kind":"namevalue", "type":["char", "choices={'','1','2','0','i1','i2','i3'}"]},
+      {"name":"multivarfit", "kind":"namevalue", "type":["char", "choices={'1', '2', ''}"], "purpose":"Add a multivariate fit"},
+      {"name":"labeladd","kind":"namevalue", "type":["numeric", "scalar"], "purpose":"label the outliers"},
+      {"name":"nameX", "kind":"namevalue", "type":["cellstr"]},
+      {"name":"namey", "kind":"namevalue", "type":"cell", "purpose":"variable labels"},
+      {"name":"ylim","kind":"namevalue", "type":["numeric", "vector"], "purpose":"minimum and maximum on the y axis"},
+      {"name":"xlim","kind":"namevalue", "type":["numeric","vector","numel=2"], "purpose":"Control x scale in plot"},
+      {"name":"bonflev", "kind":"namevalue", "type":["numeric","scalar"],"purpose":"Signal to use to identify outliers"},
+      {"name":"msg", "kind":"namevalue", "type":[["single", "scalar"], ["double", "scalar"]], "purpose":"display or save used options"}
+
+     
+
+
+   ],
+    "description":"Bayesian forward search in linear regression reweighted"
+ },
+    "FSRBeda":
+{
+ "inputs":
+ [
+    {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+    {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+    {"name":"intercept", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+    {"name":"bayes", "kind":"namevalue", "type":["struct"], "purpose":"Prior information"},
+    {"name":"bsb", "kind":"namevalue", "type":["numeric","vector"],"purpose":"list of units forming the initial subset"},
+    {"name":"conflev", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"confidence level of the bands"},
+    {"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+    {"name":"init", "kind":"namevalue", "type":["double","scalar"], "purpose":"Step to start monitoring exceedances"},
+    {"name":"Remark", "kind":"namevalue", "type":["double","scalar"], "purpose":"The user should only give the input arguments that have to change their default value"}
+
+
+ ],
+  "description":"FSRBeda enables to monitor several quantities in each step of the Bayesian search"
+},
+    "FSRBmdr":
+{
+ "inputs":
+    [
+    {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+    {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+    {"name":"beta0", "kind":"required", "type":["numeric","vector"], "purpose":"C"},
+    {"name":"R", "kind":"required", "type":["numeric","2d"], "purpose":"Matrix associated with covariance matrix of $\beta$"},
+    {"name":"tau0", "kind":"required", "type":["numeric","scalar"], "purpose":"Prior estimate of tau"},
+    {"name":"n0", "kind":"required", "type":["numeric","scalar"], "purpose":" Number of previous experiments"},
+    {"name":"bsb", "kind":"namevalue", "type":["numeric","vector"],"purpose":"list of units forming the initial subset"},
+    {"name":"init", "kind":"namevalue", "type":["double","scalar"], "purpose":"Step to start monitoring exceedances"},
+    {"name":"intercept", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+    {"name":"plots", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Plot on the screen"},
+    {"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+    {"name":"bsbsteps", "kind":"namevalue", "type":["double", "vector"], "purpose":"steps of the fwd search where to save the units forming subset"},
+    {"name":"Remark", "kind":"namevalue", "type":["double","scalar"], "purpose":"The user should only give the input arguments that have to change their default value"}
+ ],
+  "description":"FSRBmdr computes minimum deletion residual and other basic linear regression quantities in each step of the Bayesian search."
+},
+    "FSRbsb":
+{
+ "inputs":
+    [
+    {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+    {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+    {"name":"bsb", "kind":"required", "type":["vector"],"purpose":"list of units forming the initial subset"},
+    {"name":"init", "kind":"namevalue", "type":["double","scalar"], "purpose":"Step to start monitoring exceedances"},
+    {"name":"intercept", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+    {"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+    {"name":"bsbsteps", "kind":"namevalue", "type":["double", "vector"], "purpose":"steps of the fwd search where to save the units forming subset"},
+    {"name":"msg", "kind":"namevalue", "type":[["single", "scalar"], ["double", "scalar"]], "purpose":"display or save used options"},
+    {"name":"plots", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Plot on the screen"}
+
+ ],
+  "description":"FSRbsb returns the units belonging to the subset in each step of the forward search"
+},
+    "FSReda":
+{
+ "inputs":
+ [
+    {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+    {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+    {"name":"bsb", "kind":"required", "type":["vector"],"purpose":"list of units forming the initial subset"},
+    {"name":"conflev", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"confidence level of the bands"},
+    {"name":"init", "kind":"namevalue", "type":["double","scalar"], "purpose":"Step to start monitoring exceedances"},
+    {"name":"intercept", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+    {"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+    {"name":"Remark", "kind":"namevalue", "type":["double","scalar"], "purpose":"The user should only give the input arguments that have to change their default value"},
+    {"name":"wREML", "kind":"namevalue", "type":["logical"],"purpose":"compute REML weights for unit excluded from FS at each step"},
+    {"name":"tstat", "kind":"namevalue", "type":["char"], "purpose":"the kind of t-statistics which have to be monitored"}
+    
+
+
+ ],
+  "description":"FSRBeda enables to monitor several quantities in each step of the Bayesian search"
+},
+    "FSRedaCens":
+{
+ "inputs":
+ [
+    {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+    {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+    {"name":"bsb", "kind":"required", "type":["vector"],"purpose":"list of units forming the initial subset"},
+    {"name":"balancedSearch", "kind":"namevalue", "type":["logical", "logical"],"purpose":"Balanced search"},
+    {"name":"conflev", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"confidence level of the bands"},
+    {"name":"init", "kind":"namevalue", "type":["double","scalar"], "purpose":"Step to start monitoring exceedances"},
+    {"name":"left", "kind":"namevalue", "type":["double","scalar"], "purpose":"left limit for the censored dependent variable"},
+    {"name":"right", "kind":"namevalue", "type":["double","scalar"], "purpose":"right limit for the censored dependent variable"},
+    {"name":"tstat", "kind":"namevalue", "type":["char"], "purpose":"the kind of t-statistics which have to be monitored"},
+    {"name":"intercept", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+    {"name":"Remark", "kind":"namevalue", "type":["double","scalar"], "purpose":"The user should only give the input arguments that have to change their default value"}
+    
+    
+
+
+ ],
+  "description":"FSRedaCens enables to monitor several quantities in each step of the forward search"
+},
+    "FSRenvmdr":   
+{
+ "inputs":
+ [
+
+   {"name":"n", "kind":"required", "type":["numeric","scalar"], "purpose":"number of observations"},
+   {"name":"p", "kind":"required", "type":["numeric","scalar"], "purpose":"number of explanatory variables"},
+    {"name":"init", "kind":"namevalue", "type":["double","scalar"], "purpose":"Step to start monitoring exceedances"},
+    {"name":"prob", "kind":"namevalue", "type":["numeric","vector"], "purpose":" quantiles for which envelopes have to be computed"}
+   
+ ],
+  "description":"FSRenvmdr computes the theoretical envelopes of Minimum Deletion Residual outside subset during the search"
+},
+    "FSRfan":
+{
+ "inputs":
+ [ 
+ {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+ {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+ {"name":"family", "kind":"namevalue", "type":["string"], "purpose":"Indicator for constant term"},
+ {"name":"h", "kind":"namevalue", "type":["string"], "purpose":"Indicator for constant term"},
+ {"name":"init", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Step to start monitoring exceedances"},
+ {"name":"intercept", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Indicator for constant term"},
+ {"name":"la", "kind":"namevalue", "type":["double", "vector"], "purpose":" values of the transformation parameter for which it is necessary to compute the score test"},
+ {"name":"lms", "kind":"namevalue", "type":[["numeric","scalar"],["numeric","vector"],["struct"]], "purpose":"Criterion to use to find the initial subset to initialize the search"},  
+ {"name":"msg", "kind":"namevalue", "type":[["single", "scalar"], ["double", "scalar"]], "purpose":"display or save used options"},
+ {"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+ {"name":"nsamp", "kind":"namevalue", "type":["scalar", ">=0"],"purpose":"Number of subsamples which will be extracted to find the robust estimator"},
+ {"name":"scoremale", "kind":"namevalue", "type":["logical", "scalar"], "purpose":"likelihood ratio test for the two different transformation parameters lambda_P$ and $lambda_N$"},
+ {"name":"tukey1df", "kind":"namevalue", "type":["logical", "logical"], "purpose":"Tukey's one df test"},
+ {"name":"usefmin", "kind":"namevalue", "type":"logical", "purpose":"Use solver to find MLE of lambda"},
+ {"name":"plots", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Plot on the screen"},
+ {"name":"conflev", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"confidence level of the bands"},
+ {"name":"FontSize", "kind":"namevalue","type":"double", "purpose":"scalar which specifies font size of row (column) labels"},
+ {"name":"labx","kind":"namevalue", "type":"char", "purpose":"a label for the x-axis"},
+ {"name":"laby","kind":"namevalue", "type":"char", "purpose":"a label for the y-axis"},
+ {"name":"lwd", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Line Width"},
+ {"name":"lwdenv", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Width of the envelope lines"},
+ {"name":"SizeAxesNum","kind":"namevalue", "type":"double", "purpose":"scalar specifying the fontsize of the axes numbers"},
+ {"name":"tag", "kind":"namevalue", "type":"char", "purpose":"Personalized plot tag"},
+ {"name":"titl", "kind":"namevalue", "type":"char", "purpose":"a label for the title"},
+ {"name":"xlimx", "kind":"namevalue", "type":["double", "vector"], "purpose":"x axis scale"},
+ {"name":"ylimy", "kind":"namevalue", "type":[["double"], ["single"]], "purpose":"2D array of size 3-by-2 which specifies the lower and upper limits for the 3 plots of the second figure"}
+
+ ],
+  "description":"FSRfan monitors the values of the score test statistic for each lambda"
+},
+    "FSRfanCens":
+{
+ "inputs":
+ [ 
+ {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+ {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+ {"name":"balancedSearch", "kind":"namevalue", "type":["logical", "logical"],"purpose":"Balanced search"},
+ {"name":"family", "kind":"namevalue", "type":["string"], "purpose":"Indicator for constant term"},
+ {"name":"init", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Step to start monitoring exceedances"},
+ {"name":"intercept", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Indicator for constant term"},
+ {"name":"la", "kind":"namevalue", "type":["double", "vector"], "purpose":" values of the transformation parameter for which it is necessary to compute the score test"},
+ {"name":"left", "kind":"namevalue", "type":["double","scalar"], "purpose":"left limit for the censored dependent variable"},
+ {"name":"lms", "kind":"namevalue", "type":[["numeric","scalar"],["numeric","vector"],["struct"]], "purpose":"Criterion to use to find the initial subset to initialize the search"},  
+ {"name":"msg", "kind":"namevalue", "type":[["single", "scalar"], ["double", "scalar"]], "purpose":"display or save used options"},
+ {"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+ {"name":"right", "kind":"namevalue", "type":["double","scalar"], "purpose":"right limit for the censored dependent variable"},
+ {"name":"nsamp", "kind":"namevalue", "type":["scalar", ">=0"],"purpose":"Number of subsamples which will be extracted to find the robust estimator"},
+ {"name":"plots", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Plot on the screen"},
+ {"name":"conflev", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"confidence level of the bands"},
+ {"name":"FontSize","kind":"namevalue", "type":"double", "purpose":"scalar which specifies font size of row (column) labels"},
+ {"name":"labx","kind":"namevalue", "type":"char", "purpose":"a label for the x-axis"},
+ {"name":"laby","kind":"namevalue", "type":"char", "purpose":"a label for the y-axis"},
+ {"name":"lwd", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Line Width"},
+ {"name":"lwdenv", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Width of the envelope lines"},
+ {"name":"SizeAxesNum", "kind":"namevalue","type":"double", "purpose":"scalar specifying the fontsize of the axes numbers"},
+ {"name":"tag", "kind":"namevalue", "type":"char", "purpose":"Personalized plot tag"},
+ {"name":"titl", "kind":"namevalue", "type":"char", "purpose":"a label for the title"},
+ {"name":"xlimx", "kind":"namevalue", "type":["double", "vector"], "purpose":"x axis scale"},
+ {"name":"ylimy", "kind":"namevalue", "type":[["double"], ["single"]], "purpose":"2D array of size 3-by-2 which specifies the lower and upper limits for the 3 plots of the second figure"}
+
+ ],
+  "description":"FSRfanCens monitors the values of the signed sqrt LR test for each lambda in the tobit model"
+},
+    "FSRH":
+{
+ "inputs":
+ [ 
+ {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+ {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+ {"name":"Z", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+ {"name":"intercept", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Indicator for constant term"},
+ {"name":"typeH", "kind":"namevalue", "type":["numeric","string"], "purpose":"Parametric function to be used in the skedastic equation"},
+ {"name":"h", "kind":"namevalue", "type":["string"], "purpose":"Indicator for constant term"},
+ {"name":"nsamp", "kind":"namevalue", "type":["scalar", ">=0"],"purpose":"Number of subsamples which will be extracted to find the robust estimator"},
+ {"name":"lms", "kind":"namevalue", "type":[["numeric","scalar"],["numeric","vector"],["struct"]], "purpose":"Criterion to use to find the initial subset to initialize the search"},
+ {"name":"plots", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Plot on the screen"},
+ {"name":"tag", "kind":"namevalue", "type":"char", "purpose":"Personalized plot tag"},
+ {"name":"gridsearch", "kind":"namevalue", "type":["double","scalar"], "purpose":"Algorithm to be used"},
+ {"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+ {"name":"bivarfit", "kind":"namevalue", "type":["char", "choices={'','1','2','0','i1','i2','i3'}"]},
+ {"name":"multivarfit", "kind":"namevalue", "type":["char", "choices={'','1','2'}"]},
+ {"name":"labeladd", "kind":"namevalue","type":["numeric", "scalar"], "purpose":"label the outliers"},
+ {"name":"nameX","kind":"namevalue" ,"type":["string"], "purpose":"label the outliers"},
+ {"name":"namey", "kind":"namevalue", "type":"string", "purpose":"label of the response"},
+ {"name":"xlim", "kind":"namevalue","type":["numeric", "vector"], "purpose":"minimum and maximum on the x axis"},
+ {"name":"ylim", "kind":"namevalue","type":["numeric", "vector"], "purpose":"minimum and maximum on the y axis"},
+ {"name":"bonflev", "kind":"namevalue", "type":["numeric","scalar"],"purpose":"Signal to use to identify outliers"},
+ {"name":"msg", "kind":"namevalue", "type":[["single", "scalar"], ["double", "scalar"]], "purpose":"display or save used options"},
+ {"name":"bsbmfullrank", "kind":"namevalue", "type":["logical","scalar"],"purpose":"Dealing with singular X matrix" }
+
+
+
+],
+  "description":"FSRH gives an automatic outlier detection procedure in heteroskedastic linear regression"
+
+},
+
+    "FSRHbsb":
+{
+ "inputs":
+ [ 
+ {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+ {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+ {"name":"Z", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+ {"name":"bsb", "kind":"required", "type":["numeric","vector"],"purpose":"list of units forming the initial subset"},
+
+
+ 
+ {"name":"init", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Step to start monitoring exceedances"},
+ {"name":"intercept", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+ {"name":"typeH", "kind":"namevalue", "type":["numeric","string"], "purpose":"Parametric function to be used in the skedastic equation"},
+ {"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+ {"name":"msg", "kind":"namevalue", "type":[["single", "scalar"], ["double", "scalar"]], "purpose":"display or save used options"},
+ {"name":"gridsearch", "kind":"namevalue", "type":["double","scalar"], "purpose":"Algorithm to be used"},
+ {"name":"constr", "kind":"namevalue", "type":["double","vector"], "purpose":"units which are forced to join the search in the last r steps"},
+ {"name":"bsbsteps", "kind":"namevalue", "type":["double", "vector"], "purpose":"steps of the fwd search where to save the units forming subset"},
+ {"name":"plots", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Plot on the screen"}
+],
+  "description":"FSRHbsb returns the units belonging to the subset in each step of the heteroskedastic forward search"
+
+},
+    "FSRHeda":
+{
+ "inputs":
+ [ 
+ {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+ {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+ {"name":"Z", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+ {"name":"bsb", "kind":"required", "type":["numeric","vector"],"purpose":"list of units forming the initial subset"},
+ {"name":"init", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Step to start monitoring exceedances"},
+ {"name":"intercept", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+ {"name":"tstat", "kind":"namevalue", "type":["char"], "purpose":"the kind of t-statistics which have to be monitored"},
+ {"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+ {"name":"conflev", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"confidence level of the bands"},
+ {"name":"gridsearch", "kind":"namevalue", "type":["double","scalar"], "purpose":"Algorithm to be used"},
+ {"name":"typeH", "kind":"namevalue", "type":["numeric","string"], "purpose":"Parametric function to be used in the skedastic equation"},
+ {"name":"Remark", "kind":"namevalue", "type":["double","scalar"], "purpose":"The user should only give the input arguments that have to change their default value"},
+ {"name":"constr", "kind":"namevalue", "type":["double","vector"], "purpose":"units which are forced to join the search in the last r steps"}
+ 
+],
+  "description":"FSRHeda enables to monitor several quantities in each step of the forward search"
+
+},
+    "FSRHmdr":
+{
+ "inputs":
+ [ 
+ {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+ {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+ {"name":"Z", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+ {"name":"bsb", "kind":"required", "type":["numeric","vector"],"purpose":"list of units forming the initial subset"},
+
+ {"name":"init", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Step to start monitoring exceedances"},
+ {"name":"intercept", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+ {"name":"typeH", "kind":"namevalue", "type":["numeric","string"], "purpose":"Parametric function to be used in the skedastic equation"},
+ {"name":"plots", "kind":"namevalue", "type":"logical", "purpose":"Profile log likelihood for lambda"},
+ {"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+ {"name":"msg", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Level of output to display"},
+ {"name":"gridsearch", "kind":"namevalue", "type":["double","scalar"], "purpose":"Algorithm to be used"},
+ {"name":"typeH", "kind":"namevalue", "type":["numeric","string"], "purpose":"Parametric function to be used in the skedastic equation"},
+ {"name":"constr", "kind":"namevalue", "type":["double","vector"], "purpose":"units which are forced to join the search in the last r steps"},
+ {"name":"bsbmfullrank", "kind":"namevalue", "type":["logical","scalar"],"purpose":"Dealing with singular X matrix" },
+ {"name":"bsbsteps", "kind":"namevalue", "type":["double", "vector"], "purpose":"steps of the fwd search where to save the units forming subset"},
+ {"name":"Remark", "kind":"namevalue", "type":["double","scalar"], "purpose":"The user should only give the input arguments that have to change their default value"}
+],
+  "description":"FSRHmdr computes minimum deletion residual and other basic linear regression quantities in each step of the heteroskedastic search"
+
+},
+    "FSRinvmdr":
+{
+"inputs":
+[ 
+{"name":"mdrInput", "kind":"required", "type":["struct"], "purpose":"Object containing values of minimum deletion residuals"},
+{"name":"p", "kind":"required", "type":["numeric","scalar"], "purpose":"Number of explanatory variables"},
+{"name":"n", "kind":"namevalue", "type":["double","scalar"],"purpose":"size of the sample"},
+{"name":"init", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Step to start monitoring exceedances"},
+{"name":"intercept", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+{"name":"plots", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Plot on the screen"},
+{"name":"bsbsteps", "kind":"namevalue", "type":["double", "vector"], "purpose":"steps of the fwd search where to save the units forming subset"},
+{"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+{"name":"msg", "kind":"namevalue", "type":[["single", "scalar"], ["double", "scalar"]], "purpose":"display or save used options"},
+{"name":"Remark", "kind":"namevalue", "type":["double","scalar"], "purpose":"The user should only give the input arguments that have to change their default value"}
+
+],
+ "description":"FSRinvmdr converts values of mdr into confidence levels and mdr in normal coordinates"
+
+},
+    "FSRmdr":
+{
+"inputs":
+[ 
+{"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+{"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+{"name":"bsb", "kind":"required", "type":["numeric","vector"],"purpose":"list of units forming the initial subset"},
+{"name":"bsbmfullrank", "kind":"namevalue", "type":["logical","scalar"],"purpose":"Dealing with singular X matrix" },
+{"name":"constr", "kind":"namevalue", "type":["double","vector"], "purpose":"units which are forced to join the search in the last r steps"},
+{"name":"bsbsteps", "kind":"namevalue", "type":["double", "vector"], "purpose":"steps of the fwd search where to save the units forming subset"},
+{"name":"init", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Step to start monitoring exceedances"},
+{"name":"intercept", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+{"name":"internationaltrade", "kind":"namevalue", "type":["logical","logical"],"purpose":"criterion for updating subset" },
+{"name":"msg", "kind":"namevalue", "type":[["single", "scalar"], ["double", "scalar"]], "purpose":"display or save used options"},
+{"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+{"name":"treshlevoutX", "kind":"namevalue", "type":["double","scalar"],"purpose":"threshold for high leverage units"},
+{"name":"plots", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Plot on the screen"}
+
+],
+ "description":"FSRmdr computes minimum deletion residual and other basic linear regression quantities in each step of the search"
+},
+    "FSRms":
+{
+"inputs":
+[ 
+{"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+{"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+{"name":"intercept", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+{"name":"init", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Step to start monitoring exceedances"},
+{"name":"h", "kind":"namevalue", "type":["double","scalar"], "purpose":"The number of observations that have determined the least trimmed squares estimator"},
+{"name":"nsamp", "kind":"namevalue", "type":["scalar", ">=0"],"purpose":"Number of subsamples which will be extracted to find the robust estimator"},
+{"name":"lms", "kind":"namevalue", "type":[["numeric","scalar"],["numeric","vector"],["struct"]], "purpose":"Criterion to use to find the initial subset to initialize the search"},
+{"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+{"name":"smallpint", "kind":"namevalue", "type":["double","vector"], "purpose":"submodels to consider"},
+{"name":"labels", "kind":"namevalue", "type":[["char"], ["string"], ["cell"]], "purpose":" names of the explanatory variables"},
+{"name":"fin_step", "kind":"namevalue", "type":["double","scalar"], "purpose":"portion of the search which has to be monitored to choose the best models"},
+{"name":"first_k", "kind":"namevalue", "type":["double","scalar"], "purpose":"number of best models"},
+{"name":"ignore", "kind":"namevalue", "type":["scalar","double"], "purpose":"submodels to consider"},
+{"name":"ExclThresh", "kind":"namevalue", "type":["scalar","double"], "purpose":"Exclusion threshold"},
+{"name":"meanmed", "kind":"namevalue", "type":["scalar","double"], "purpose":"Boxes of the candles"},
+{"name":"plots", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Plot on the screen"},
+{"name":"rl", "kind":"namevalue", "type":["double", "scalar"], "purpose":"spread of the candles around each integer value defining the size of the submodels"},
+{"name":"quant", "kind":"namevalue", "type":["double", "vector"], "purpose":"Quantiles"},
+{"name":"CandleWidth", "kind":"namevalue", "type":["double", "scalar"], "purpose":"width of the boxes associated with the central part of the search"},
+{"name":"LineWidth", "kind":"namevalue","type":"char", "purpose":"scalar specifying line width for the trajectories"},
+{"name":"ylimy", "kind":"namevalue", "type":[["double"], ["single"]], "purpose":"2D array of size 3-by-2 which specifies the lower and upper limits for the 3 plots of the second figure"},
+{"name":"xlimx", "kind":"namevalue", "type":["double", "vector"], "purpose":"x axis scale"}
+
+],
+ "description":"FSRms performs robust model selection using flexible trimming in linear regression"
+},
+    "FSRr":
+{
+"inputs":
+[ 
+{"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+{"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+{"name":"alpha", "type":["double", "scalar"], "purpose":"scalar containing the value of alpha which has been considered."},
+{"name":"R2th", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+{"name":"fullereweight", "kind":"namevalue", "type":["scalar","logical"], "purpose":"Option to declare outliers"},
+{"name":"plotsPI", "kind":"namevalue", "type":["scalar","double"], "purpose":"Plot of prediction intervals"}
+
+],
+ "description":"Forward search in linear regression reweighted"
+},
+    "FSRts":
+{
+"inputs":
+[ 
+{"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+{"name":"nsamp", "kind":"namevalue", "type":["scalar", ">=0"],"purpose":"Number of subsamples which will be extracted to find the robust estimator"},
+{"name":"lms", "kind":"namevalue", "type":[["numeric","scalar"],["numeric","vector"],["struct"]], "purpose":"Criterion to use to find the initial subset to initialize the search"},
+{"name":"h", "kind":"namevalue", "type":["double","scalar"], "purpose":"The number of observations that have determined the least trimmed squares estimator"},
+{"name":"plots", "kind":"namevalue", "type":"logical", "purpose":"Profile log likelihood for lambda"},
+{"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+{"name":"init", "kind":"namevalue", "type":["double","scalar"], "purpose":"Step to start monitoring exceedances"},
+{"name":"bivarfit", "kind":"namevalue", "type":["char", "choices={'','1','2','0','i1','i2','i3'}"]},
+{"name":"multivarfit", "kind":"namevalue", "type":["char", "choices={'1', '2', ''}"], "purpose":"Add a multivariate fit"},
+{"name":"labeladd","kind":"namevalue", "type":["numeric", "scalar"], "purpose":"label the outliers"},
+{"name":"nameX", "kind":"namevalue", "type":["cellstr"]},
+{"name":"namey", "kind":"namevalue", "type":"cell", "purpose":"variable labels"},
+{"name":"ylim","kind":"namevalue", "type":["numeric", "vector"], "purpose":"minimum and maximum on the y axis"},
+{"name":"xlim","kind":"namevalue", "type":["numeric","vector","numel=2"], "purpose":"Control x scale in plot"},
+{"name":"bonflev", "kind":"namevalue", "type":["numeric","scalar"],"purpose":"Signal to use to identify outliers"},
+{"name":"msg", "kind":"namevalue", "type":[["single", "scalar"], ["double", "scalar"]], "purpose":"display or save used options"},
+{"name":"bsbmfullrank", "kind":"namevalue", "type":["logical","scalar"],"purpose":"Dealing with singular X matrix" },
+{"name":"tag", "kind":"namevalue", "type":"char", "purpose":"Personalized plot tag"}
+
+],
+ "description":"FSRts is an automatic adaptive procedure to detect outliers in time series"
+},
+
+"FSRtsbsb":
+{
+"inputs":
+[ 
+{"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+{"name":"bsb", "kind":"required", "type":["numeric","vector"],"purpose":"list of units forming the initial subset"},
+{"name":"init", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Step to start monitoring exceedances"},
+{"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+{"name":"bsbsteps", "kind":"namevalue", "type":["double", "vector"], "purpose":"steps of the fwd search where to save the units forming subset"},
+{"name":"plots", "kind":"namevalue", "type":"logical", "purpose":"Profile log likelihood for lambda"},
+{"name":"bsbmfullrank", "kind":"namevalue", "type":["logical","scalar"],"purpose":"Dealing with singular X matrix" }
+
+],
+ "description":"FSRtsbsb returns the units belonging to the subset in each step of the forward search"
+},
+    "FSRtsmdr":
+{
+"inputs":
+[ 
+{"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
+{"name":"bsb", "kind":"required", "type":["numeric","vector"],"purpose":"list of units forming the initial subset"},
+{"name":"init", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Step to start monitoring exceedances"},
+{"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+{"name":"msg", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Level of output to display"},
+{"name":"constr", "kind":"namevalue", "type":["double","vector"], "purpose":"units which are forced to join the search in the last r steps"},
+{"name":"bsbmfullrank", "kind":"namevalue", "type":["logical","scalar"],"purpose":"Dealing with singular X matrix" },
+{"name":"bsbsteps", "kind":"namevalue", "type":["double", "vector"], "purpose":"steps of the fwd search where to save the units forming subset"},
+{"name":"Remark", "kind":"namevalue", "type":["double","scalar"], "purpose":"The user should only give the input arguments that have to change their default value"}
+],
+ "description":"FSRtsmdr computes minimum deletion residual for time series models in each step of the search"
+}
+
+
+
+    
+
+
 }
