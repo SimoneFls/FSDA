@@ -202,12 +202,17 @@
      ],
       "description":"Computes forward search estimator in linear regression"
    },
+
+
+
+
      "FSRaddt":
  {
    "inputs":
    [
       {"name":"y", "kind":"required", "type":["numeric","vector"], "purpose":"Response variable"},
       {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+
       {"name":"DataVars", "kind": "namevalue", "type":["double", "vector"],"purpose":"Variables for which $g(X_j)$ against $X_j$ has to be shown"},
       {"name":"intercept", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Indicator for constant term"},
       {"name":"h", "kind":"namevalue", "type":["logical","scalar"], "purpose":"The number of observations that have determined the least trimmed squares estimator"},
@@ -230,8 +235,8 @@
       {"name":"xlim", "kind":"namevalue", "type":["numeric","vector","numel=2"], "purpose":"Control x scale in plot"},
       {"name":"ylim", "kind":"namevalue", "type":["numeric","vector","numel=2"], "purpose":"Control y scale in plot"}
        
-
-      
+    
+       
       
    ],
     "description":"FSRaddt produces t deletion tests for each explanatory variable"
@@ -464,8 +469,8 @@
 
    {"name":"n", "kind":"required", "type":["numeric","scalar"], "purpose":"number of observations"},
    {"name":"p", "kind":"required", "type":["numeric","scalar"], "purpose":"number of explanatory variables"},
-    {"name":"init", "kind":"namevalue", "type":["double","scalar"], "purpose":"Step to start monitoring exceedances"},
-    {"name":"prob", "kind":"namevalue", "type":["numeric","vector"], "purpose":" quantiles for which envelopes have to be computed"}
+   {"name":"init", "kind":"namevalue", "type":["double","scalar"], "purpose":"Step to start monitoring exceedances"},
+   {"name":"prob", "kind":"namevalue", "type":["numeric","vector"], "purpose":" quantiles for which envelopes have to be computed"}
    
  ],
   "description":"FSRenvmdr computes the theoretical envelopes of Minimum Deletion Residual outside subset during the search"
@@ -783,11 +788,169 @@
 {"name":"Remark", "kind":"namevalue", "type":["double","scalar"], "purpose":"The user should only give the input arguments that have to change their default value"}
 ],
  "description":"FSRtsmdr computes minimum deletion residual for time series models in each step of the search"
-}
+},
+    "GYfilt":
+    {
+        "inputs":
+        [
+            {"name":"alpha", "kind":"required","type":["double", "scalar"], "purpose":"coverage probability"},
+            {"name":"centering", "kind":"required","type":["logical"], "purpose":"centering the data"},
+            {"name":"iterating", "kind":"required","type":["logical"], "purpose":"iterative procedure"},
+            {"name":"niter", "kind":"required","type":["logical","scalar"], "purpose":"centering the data"}
 
+        ],
 
+        "description":"GYfilt computes the Gervini-Yohai univariate outlier identifier"
+    },
+       "LTSts":
+    {
+        "inputs":
+        [
 
-    
+            {"name":"y", "kind":"required", "type":["numeric", "vector"], "purpose":"vector of n elements to bin"},
+            {"name":"bdp", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"breakdown point"},
+            {"name":"conflev", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"confidence level of the bands"},
+            {"name":"dispresults", "kind":"namevalue", "type":["logical"], "purpose":"Display results of final fit"},
+            {"name":"h", "kind":"namevalue", "type":["logical","scalar"], "purpose":"The number of observations that determined the least trimmed squares estimator"},
+            {"name":"intercept", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Indicator for constant term"},
+            {"name":"lshiftlocref", "kind":"namevalue", "type":["logical"], "purpose":"Indicator for constant term"},
+            {"name":"model", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Structure"},
+            {"name":"msg", "kind":"namevalue", "type":[["single", "scalar"], ["double", "scalar"]], "purpose":"display or save used options"},
+            {"name":"nbestindexes", "kind":"namevalue", "type":[["double", "scalar"]], "purpose":"position of the best solutions"},
+            {"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+            {"name":"nsamp", "kind":"namevalue", "type":["scalar", ">=0"],"purpose":"Number of subsamples which will be extracted to find the robust estimator"},
+            {"name":"Remark", "kind":"namevalue", "type":["double","scalar"], "purpose":"The user should only give the input arguments that have to change their default value"},
+            {"name":"plots", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Plot on the screen"}
+        ],
 
+        "description":"LTSts extends LTS estimator to time series"
+    },
+      "LTStsLSmult":
+    {
+        "inputs":
+        [
 
+            {"name":"y", "kind":"required", "type":["numeric", "vector"], "purpose":"vector of n elements to bin"},
+            {"name":"alphaLS", "kind":"namevalue", "type":["double", "scalar"], "purpose":"maximum pvalue to consider a Level Shift significant"},
+            {"name":"alphaLTS", "kind":"namevalue", "type":["double", "scalar"], "purpose":"complement of the confidence level"},
+            {"name":"maxLS", "kind":"namevalue", "type":["double", "scalar"], "purpose":"maximum number of Level Shifts"},
+            {"name":"model", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Structure"},
+            {"name":"bdp", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"breakdown point"},
+            {"name":"sampleLS", "kind":"namevalue", "type":["double", "scalar"], "purpose":"vector of the positions in which Level Shift should be tested"},
+            {"name":"startLS", "kind":"namevalue", "type":["double", "scalar"], "purpose":"first position in which Level Shift should be tested"},
+            {"name":"thresLS", "kind":"namevalue", "type":["double", "scalar"], "purpose":"minimum length of the time series to look for Level Shift"},
+            {"name":"msg", "kind":"namevalue", "type":[["single", "scalar"], ["double", "scalar"]], "purpose":"display or save used options"},
+            {"name":"plots", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Plot on the screen"}
+        ],
+
+        "description":"LTStsLSmult extends LTSts to the detection of multiple Level Shifts in time series"
+    },
+    "LTStsVarSel":
+    {
+        "inputs":
+        [
+
+            {"name":"y", "kind":"required", "type":["numeric", "vector"], "purpose":"vector of n elements to bin"},
+            {"name":"model", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Structure"},
+            {"name":"firstTestLS", "kind":"namevalue", "type":["logical"], "purpose":"initial test for presence of level shift"},
+            {"name":"nsamp", "kind":"namevalue", "type":["scalar", ">=0"],"purpose":"Number of subsamples which will be extracted to find the robust estimator"},
+            {"name":"thPval", "kind":"namevalue", "type":["double", "scalar"], "purpose":" threshold for pvalues"},
+            {"name":"msg", "kind":"namevalue", "type":[["single", "scalar"], ["double", "scalar"]], "purpose":"display or save used options"},
+            {"name":"plots", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Plot on the screen"},
+            {"name":"dispresults", "kind":"namevalue", "type":["logical"], "purpose":"Display results of final fit"}
+        ],
+
+        "description":"LTStsVarSel does variable selection in the robust time series model LTSts"
+    },
+      "LXS":
+    {
+        "inputs":
+        [
+
+            {"name":"y", "kind":"required", "type":["numeric", "vector"], "purpose":"vector of n elements to bin"},
+            {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+            {"name":"bdp", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"breakdown point"},
+            {"name":"bonflevoutX", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"remote units in the X space"},
+            {"name":"conflev", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"confidence level of the bands"},
+            {"name":"conflevrew", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"Confidence level used for reweighting"},
+            {"name":"h", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"The number of observations that have determined the least trimmed squares estimator"},
+            {"name":"intercept", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Indicator for constant term"},
+            {"name":"lms", "kind":"namevalue", "type":[["numeric","scalar"],["numeric","vector"],["struct"]], "purpose":"Criterion to use to find the initial subset to initialize the search"},
+            {"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+            {"name":"nomes", "kind":"namevalue", "type":["logical"], "purpose":"It controls whether to display or not on the screen messages about estimated time to compute LMS (LTS)"},
+            {"name":"msg", "kind":"namevalue", "type":[["single", "scalar"], ["double", "scalar"]], "purpose":"display or save used options"},
+            {"name":"nsamp", "kind":"namevalue", "type":["scalar", ">=0"],"purpose":"Number of subsamples which will be extracted to find the robust estimator"},
+            {"name":"rew", "kind":"namevalue", "type":["scalar", ">=0"],"purpose":"LXS reweighted"},
+            {"name":"SmallSampleCor", "kind":"namevalue", "type":["scalar", ">=0"],"purpose":"Small sample correction factor to control empirical size of the test"},
+            {"name":"plots", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Plot on the screen"},
+            {"name":"Remark", "kind":"namevalue", "type":["double","scalar"], "purpose":"The user should only give the input arguments that have to change their default value"},
+            {"name":"yxsave", "kind":"namevalue", "type":["double","scalar"], "purpose":"the response vector y and data matrix X are saved into the output structure out"}
+
+     ],
+
+        "description":"LXS computes the Least Median of Squares (LMS) or Least Trimmed Squares (LTS) estimators"
+    },
+       "mdpdR":
+    {
+        "inputs":
+        [
+
+            {"name":"y", "kind":"required", "type":["numeric", "vector"], "purpose":"vector of n elements to bin"},
+            {"name":"X", "kind":"required", "type":["numeric","2d"], "purpose":"Predictor variables"},
+            {"name":"alpha","kind":"required", "type":["double", "scalar"], "purpose":"tuning parameter"},
+            {"name":"modelfun", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"non linear function to use"},
+            {"name":"theta0", "kind":"namevalue", "type":["double", "vector"], "purpose":"Initial point"},
+            {"name":"intercept", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Indicator for constant term"},
+            {"name":"dispresults", "kind":"namevalue", "type":["logical"], "purpose":"Display results of final fit"},
+            {"name":"conflev", "kind":"namevalue", "type":["numeric", "scalar"], "purpose":"confidence level of the bands"},
+            {"name":"plots", "kind":"namevalue", "type":["numeric","scalar"], "purpose":"Plot on the screen"},
+            {"name":"yxsave", "kind":"namevalue", "type":["double","scalar"], "purpose":"the response vector y and data matrix X are saved into the output structure out"},
+            {"name":"MaxIter", "kind":"namevalue", "type":["double","scalar"], "purpose":"maximum number of iterations allowed"},
+            {"name":"TolX", "kind":"namevalue", "type":["double","scalar"], "purpose":"Tolerance for declaring convergence"}
+
+     ],
+
+        "description":"mdpdR allows to apply Minimum Density Power Divergence criterion to parametric regression problems."
+    },
+     "mdpdReda":
+    {
+        "inputs":
+        [
+            { "name": "y", "kind": "required", "type": ["numeric", "vector"], "purpose": "vector of n elements to bin" },
+            { "name": "X", "kind": "required", "type": ["numeric", "2d"], "purpose": "Predictor variables" },
+            { "name": "tuningpar", "kind": "namevalue", "type": ["double", "scalar"], "purpose": "tuning parameter" },
+            { "name": "alphaORbdp", "kind": "namevalue", "type": ["char"], "purpose": "ctuning refers to alpha or to breakdown point" },
+            { "name": "modelfun", "kind": "namevalue", "type": ["numeric", "scalar"], "purpose": "non linear function to use" },
+            { "name": "theta0", "kind": "namevalue", "type": ["double", "vector"], "purpose": "Initial point" },
+            { "name": "intercept", "kind": "namevalue", "type": ["double", "scalar"], "purpose": "Indicator for constant term" },
+            { "name": "conflev", "kind": "namevalue", "type": ["numeric", "scalar"], "purpose": "confidence level of the bands" },
+            { "name": "plots", "kind": "namevalue", "type": ["numeric", "scalar"], "purpose": "Plot on the screen" }
+            
+        ],
+        "description": "mdpdReda allows to monitor  Minimum Density Power Divergence criterion to parametric regression problems."
+
+},
+
+"MMreg":
+    {
+        "inputs":
+        [
+            { "name": "y", "kind": "required", "type": ["numeric", "vector"], "purpose": "vector of n elements to bin" },
+            { "name": "X", "kind": "required", "type": ["numeric", "2d"], "purpose": "Predictor variables" },
+            { "name": "eff", "kind": "namevalue", "type": ["double", "scalar"], "purpose": " Confidence level which is used to declare units as outliers" },
+            { "name": "effshape", "kind": "namevalue", "type": ["double", "scalar"], "purpose": "location or scale efficiency" },
+            { "name": "InitialEst", "kind": "namevalue", "type": ["struct"], "purpose": "starting values of the MM-estimator" },
+            {"name":"intercept", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Indicator for constant term"},
+            {"name":"nocheck", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Check input arguments"},
+            {"name":"refsteps", "kind":"namevalue", "type":["logical","scalar"], "purpose":"Maximum iterations"},
+            {"name":"rhofunc", "kind":"namevalue", "type":["char"], "purpose":"rho function"},
+            {"name":"rhofuncparam", "kind":"namevalue", "type":["double", "scalar"], "purpose":"Additional parameters for the specified rho function."},
+            {"name":"Soptions", "kind":"namevalue", "type":["double", "scalar"], "purpose":"options to pass to Sreg for initial S estimator"},
+            { "name": "tol", "kind": "namevalue", "type": ["double", "scalar"], "purpose": "tolerance" },
+            {"name":"yxsave", "kind":"namevalue", "type":["double","scalar"], "purpose":"the response vector y and data matrix X are saved into the output structure out"},
+            { "name": "plots", "kind": "namevalue", "type": ["numeric", "scalar"], "purpose": "Plot on the screen" }
+            
+        ],
+        "description": "MMreg computes MM estimator of regression coefficients"
+    }
 }
